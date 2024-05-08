@@ -1,22 +1,22 @@
-[build-system]
-requires = ["hatchling"]
-build-backend = "hatchling.build"
-
 [project]
-name = "Network-Builder"
+name = "Network_Builder"
 version = "0.0.1"
-authors = [
-  { name="Levy-Y", email="21.hagymasi.levente.gyula@mechwart.com" },
-]
 description = "Infrastructure as code network builder"
+authors = [
+    { name = "Levy-Y", email = "21.hagymasi.levente.gyula@mechwart.com" }
+]
+license = { file = "LICENSE.txt" }
 readme = "README.md"
-requires-python = ">=3.8"
-classifiers = [
-    "Programming Language :: Python :: 3",
-    "License :: OSI Approved :: MIT License",
-    "Operating System :: OS Independent",
+requires-python = ">=3.10"
+
+dependencies = [
+    "netmiko"
 ]
 
 [project.urls]
 Homepage = "https://github.com/Levy-Y/Network-Builder/"
-Issues = "https://github.com/Levy-Y/Network-Builder/issues"
+Repository = "https://github.com/Levy-Y/Network-Builder/"
+
+[build-system]
+build-backend = "flit_core.buildapi"
+requires = ["flit_core >=3.2,<4"]
