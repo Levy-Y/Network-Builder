@@ -1,2 +1,2 @@
 # __init__.py
-from.main import main
+from.network_builder import main
