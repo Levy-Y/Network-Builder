@@ -1,3 +1,5 @@
+![Logo](./assets/logo.png)
+
 # Network-Builder
 
 ## Installation
