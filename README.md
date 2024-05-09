@@ -1,4 +1,6 @@
-![Logo](./assets/logo.png)
+<p align="center">
+  <img src="https://github.com/Levy-Y/Network-Builder/blob/main/assets/logo.png?raw=true" alt="Logo"/>
+</p>
 
 # Network-Builder
 
