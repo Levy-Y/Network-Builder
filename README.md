@@ -15,7 +15,7 @@ pip install Network_Builder
 ```
 
 ### Manually
-1. Download the latest release from the [releases tab](https://github.com/yourusername/Network_Builder/releases).
+1. Download the latest release from the [releases tab](https://github.com/Levy-Y/Network_Builder/releases).
 2. Install the wheel file using pip:
 
 ```bash
