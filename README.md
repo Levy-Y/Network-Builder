@@ -12,6 +12,10 @@ pip install Network_Builder
 1. Download the latest release from the [releases tab](https://github.com/yourusername/Network_Builder/releases).
 2. Install the wheel file using pip:
 
+```bash
+pip install /path/to/downloaded/wheel/file.whl
+```
+
 ## Usage
 ```bash
 python -m Network_Builder --tasks_file <file_path> --devices_file <file_path>
