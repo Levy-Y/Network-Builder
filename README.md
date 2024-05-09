@@ -1,5 +1,22 @@
 # Network-Builder
 
+## Installation
+
+### Using pip
+
+```bash
+pip install Network_Builder
+```
+
+### Manually
+1. Download the latest release from the [releases tab](https://github.com/yourusername/Network_Builder/releases).
+2. Install the wheel file using pip:
+
+## Usage
+```bash
+python -m Network_Builder --tasks_file <file_path> --devices_file <file_path>
+```
+
 ## Device config json example:
 ```json
 {
@@ -44,3 +61,16 @@
     ]
 }
 ```
+
+
+## Contributing
+
+We welcome contributions from the community. Before submitting a pull request, please ensure that:
+
+- Your feature or bug fix is covered by tests.
+- Your code adheres to the existing code style.
+- You have added or updated documentation as necessary.
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details.
