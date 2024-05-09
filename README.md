@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://github.com/Levy-Y/Network-Builder/blob/main/assets/logo.png?raw=true" alt="Logo" width="50%"/>
+  <img src="https://github.com/Levy-Y/Network-Builder/blob/main/assets/logo.png?raw=true" alt="Logo" width="25%"/>
 </p>
 
 # Network-Builder
