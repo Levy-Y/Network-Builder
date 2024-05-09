@@ -4,7 +4,6 @@ It contains classes and functions to load device and task data from files and ha
 """
 
 import json
-import argparse
 import netmiko
 
 class UnimplementedDeviceType(Exception):
