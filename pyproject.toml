@@ -22,7 +22,7 @@ build-backend = "flit_core.buildapi"
 requires = ["flit_core >=3.2,<4"]
 
 [tool.flit.module]
-name = "Network_Builder"
+name = "network_builder"
 
 [tool.flit.sdist]
-include = ["src/Network_Builder/__init__.py"]
+include = ["src/network_builder/__init__.py"]
