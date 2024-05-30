@@ -24,54 +24,41 @@ pip install /path/to/downloaded/wheel/file.whl
 
 ## Usage
 ```bash
-python -m Network_Builder --tasks_file <file_path> --devices_file <file_path>
+python -m Network_Builder --config_file <file_path>
 ```
 
-## Device config json example:
-```json
-{
-  "devices": [
-    {
-      "name": "Device_Name_1",
-      "ip": "192.168.1.1",
-      "port": 22,
-      "type": "cisco_ios"
-    },
-    {
-      "name": "Device_Name_2",
-      "ip": "10.10.0.23",
-      "port": 22,
-      "type": "cisco_ios"
-    }
-  ]
-}
-```
+## Example config yml example:
+```yaml
+version: '1.0'
 
-## Task list json example:
-``` json
-{
-    "tasks": [
-        {
-            "taskname": "Task Name 1",
-            "taskdescription": "Task without argument",
-            "target": "Device_Name_1",
-            "command": "command_of_your_choice",
-            "arguments": []
-        },
-        {
-            "taskname": "Task Name 2",
-            "taskdescription": "Task with argument",
-            "target": "Device_Name_2",
-            "command": "command_of_your_choice_with_argument",
-            "arguments": [
-                "argument_1",
-                "argument_2"
-            ]
-        }
-    ]
-}
-```
+devices:
+  - name: 'device1'
+    type: 'cisco_ios'
+    ip: '192.168.1.210'
+    port: '22'
+    username: 'admin'
+    password: 'password'
+  - name: 'device2'
+    type: 'cisco_ios'
+    ip: '192.168.1.211'
+    port: '22'
+    username: 'admin'
+    password: 'password'
 
+tasks:
+  - name: 'task1 name'
+    description: 'This is task 1'
+    device: 'device1'
+    commands:
+      - 'show version'
+      - 'show ip interface brief'
+  - name: 'task2 name'
+    description: 'This is task 2'
+    device: 'device2'
+    commands:
+      - 'show version'
+      - 'show ip interface brief'
+```
 
 ## Contributing
 
