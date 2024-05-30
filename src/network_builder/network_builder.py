@@ -175,10 +175,3 @@ def main(config_file):
             else:
                 print(f'Device {task.target} not found, or username: {device.username} or password: {device.password} is incorrect.')
                 pass
-
-if __name__ == '__main__':
-    argparse = argparse.ArgumentParser()
-    argparse.add_argument('--config_file', help='Path to the config file', required=True)
-    args = argparse.parse_args()
-
-    main(args.config_file)

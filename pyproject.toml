@@ -1,5 +1,5 @@
 [project]
-name = "Network_Builder"
+name = "network_builder"
 version = "0.0.1"
 description = "Infrastructure as code network builder"
 authors = [
