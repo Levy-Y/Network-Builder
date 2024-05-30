@@ -20,9 +20,3 @@ Repository = "https://github.com/Levy-Y/Network-Builder/"
 [build-system]
 build-backend = "flit_core.buildapi"
 requires = ["flit_core >=3.2,<4"]
-
-[tool.flit.module]
-name = "network_builder"
-
-[tool.flit.sdist]
-include = ["src/network_builder/__init__.py"]

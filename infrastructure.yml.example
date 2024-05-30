@@ -1,0 +1,29 @@
+version: '1.0'
+
+devices:
+  - name: 'device1'
+    type: 'cisco_ios'
+    ip: '192.168.1.210'
+    port: '22'
+    username: 'admin'
+    password: 'password'
+  - name: 'device2'
+    type: 'cisco_ios'
+    ip: '192.168.1.211'
+    port: '22'
+    username: 'admin'
+    password: 'password'
+
+tasks:
+  - name: 'task1 name'
+    description: 'This is task 1'
+    device: 'device1'
+    commands:
+      - 'show version'
+      - 'show ip interface brief'
+  - name: 'task2 name'
+    description: 'This is task 2'
+    device: 'device2'
+    commands:
+      - 'show version'
+      - 'show ip interface brief'

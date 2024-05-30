@@ -3,7 +3,8 @@ This is the network_builder module.
 It contains classes and functions to load device and task data from files and handle exceptions.
 """
 
-import json
+import yaml
+import argparse
 import netmiko
 
 class UnimplementedDeviceType(Exception):
@@ -20,20 +21,28 @@ class FileLoader:
     Attributes:
         device_file_path -- path to the device data file
         tasks_file_path -- path to the tasks data file
+        device_data -- data loaded from the device data file
+        tasks_data -- data loaded from the tasks data file
     """
-    def __init__(self, device_file_path, tasks_file_path):
-        self.device_file_path = device_file_path
-        self.tasks_file_path = tasks_file_path
+    def __init__(self, config_file_path):
+        self.config_file_path = config_file_path
+        self.device_data = None
+        self.tasks_data = None
 
-    def load_device_data(self):
-        with open(self.device_file_path, encoding='utf-8') as device_file:
-            self.device_data = json.load(device_file)
+    def load_config_file(self):
+        with open(self.config_file_path, 'r') as config_file:
+            self.device_data = yaml.safe_load(config_file)
             return self.device_data
 
-    def load_tasks_data(self):
-        with open(self.tasks_file_path, encoding='utf-8') as tasks_file:
-            self.tasks_data = json.load(tasks_file)
-            return self.tasks_data
+    def __init__(self, config_file_path):
+        self.config_file_path = config_file_path
+        self.device_data = None
+        self.tasks_data = None
+
+    def load_config_file(self):
+        with open(self.config_file_path, 'r') as config_file:
+            self.device_data = yaml.safe_load(config_file)
+            return self.device_data
 
 class TaskManager:
     """Class for managing tasks.
@@ -45,41 +54,45 @@ class TaskManager:
         command -- command of the task
         arguments -- arguments of the task
     """
-    def __init__(self, taskname, taskdescription, target, command, arguments):
+    def __init__(self, taskname, taskdescription, target, command):
         self.taskname = taskname
         self.taskdescription = taskdescription
         self.target = target
         self.command = command
-        self.arguments = arguments
 
 class CommandManager:
-    """Class for managing commands.
+    """
+    The CommandManager class is responsible for managing and executing commands on network devices.
 
     Attributes:
-        name -- name of the device
-        ip -- IP address of the device
-        port -- port of the device
-        device_type -- type of the device
+        name (str): The name of the network device.
+        ip (str): The IP address of the network device.
+        port (int): The port number to connect to on the network device.
+        device_type (str): The type of the network device (e.g., 'ciscoios').
+        username (str): The username to use when connecting to the network device.
+        password (str): The password to use when connecting to the network device.
 
     Methods:
-        send_command -- sends a command to the device
-        send_config -- sends a configuration to the device
+        send_command(str): Sends a command to the network device and returns the output.
+        send_config(list): Sends a list of configuration commands to the network device.
     """
-    def __init__(self, name, ip, port, device_type):
+    def __init__(self, name, ip, port, device_type, username, password):
         self.name = name
         self.ip = ip
         self.port = port
         self.device_type = device_type
+        self.username = username
+        self.password = password
 
-    def send_command(self, command):
+    def send_command(self, command, username, password):
         try:
             if self.device_type == 'cisco_ios':
                 connection = netmiko.ConnectHandler(
                     device_type=self.device_type,
                     ip=self.ip,
                     port=self.port,
-                    username='admin',
-                    password='cisco'
+                    username=username,
+                    password=password
                 )
                 output = connection.send_command(command)
                 print(output)
@@ -89,15 +102,15 @@ class CommandManager:
         except Exception as e:
             print(f'Error: {e}')
 
-    def send_config(self, config):
+    def send_config(self, config, username, password):
         try:
             if self.device_type == 'cisco_ios':
                 connection = netmiko.ConnectHandler(
                     device_type=self.device_type,
                     ip=self.ip,
                     port=self.port,
-                    username='admin',
-                    password='cisco'
+                    username=username,
+                    password=password
                 )
                 output = connection.send_config_set(config)
                 print(output)
@@ -107,42 +120,65 @@ class CommandManager:
         except Exception as e:
             print(f'Error: {e}')
 
-def main(task_file, device_file):
-    file_loader = FileLoader(device_file, task_file)
-    device_data = file_loader.load_device_data()
-    tasks_data = file_loader.load_tasks_data()
+def main(config_file):
+    """
+    The main function is the entry point of the network builder program.
+
+    It loads a configuration file, creates a list of CommandManager objects (representing network devices) 
+    and a list of TaskManager objects (representing tasks to be performed on the devices). 
+
+    For each task in the tasks list, it finds the corresponding device in the devices list and executes 
+    the task's command on the device. If the task has additional arguments, it sends those as well.
+
+    If a task's target device is not found in the devices list, or if the username or password is incorrect, 
+    it prints an error message and continues to the next task.
+
+    Parameters:
+    config_file (str): The path to the configuration file.
+    """
+    file_loader = FileLoader(config_file_path=config_file)
+    config_file = file_loader.load_config_file()
 
     device_list = []
     tasks_list = []
 
-    devices = device_data['devices']
+    devices = config_file['devices']
     for device in devices:
         name = device['name']
         ip = device['ip']
         port = device['port']
         device_type = device['type']
+        password = device['password']
+        username = device['username']
 
-        network_device = CommandManager(name, ip, port, device_type)
+        network_device = CommandManager(name, ip, port, device_type, username, password)
         device_list.append(network_device)
 
-    tasks = tasks_data['tasks']
+    tasks = config_file['tasks']
     for task in tasks:
-        name = task['taskname']
-        description = task['taskdescription']
-        target = task['target']
-        command = task['command']
-        arguments = task['arguments']
+        name = task['name']
+        description = task['description']
+        target = task['device']
+        commands = task['commands']
 
-        task = TaskManager(name, description, target, command, arguments)
-        tasks_list.append(task)
+        for command in commands:
+            task = TaskManager(name, description, target, command)
+            tasks_list.append(task)
 
     for task in tasks_list:
         for device in device_list:
             if device.name == task.target:
-                dev = CommandManager(device.name, device.ip, device.port, device.device_type)
-                dev.send_command(task.command)
-                if task.arguments:
+                dev = CommandManager(device.name, device.ip, device.port, device.device_type, device.username, device.password)
+                dev.send_command(task.command, device.username, device.password)
+                if hasattr(task, 'arguments'):
                     dev.send_command(f'{task.command} {task.arguments}')
             else:
-                print(f'Device {task.target} not found')
+                print(f'Device {task.target} not found, or username: {device.username} or password: {device.password} is incorrect.')
                 pass
+
+if __name__ == '__main__':
+    argparse = argparse.ArgumentParser()
+    argparse.add_argument('--config_file', help='Path to the config file', required=True)
+    args = argparse.parse_args()
+
+    main(args.config_file)
