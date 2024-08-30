@@ -4,7 +4,7 @@
 
 # Network-Builder
 
-[![Made with Python](https://img.shields.io/badge/Python->=3.8-blue?logo=python&logoColor=white)](https://python.org "Go to Python homepage") ![maintained - yes](https://img.shields.io/badge/maintained-yes-blue) ![Upload to PyPi](https://github.com/Levy-Y/Network-Builder/actions/workflows/publish-to-pypi.yml/badge.svg)
+[![Made with Python](https://img.shields.io/badge/Python->=3.8-blue?logo=python&logoColor=white)](https://python.org "Go to Python homepage") ![maintained - no](https://img.shields.io/badge/maintained-no-red) ![Upload to PyPi](https://github.com/Levy-Y/Network-Builder/actions/workflows/publish-to-pypi.yml/badge.svg)
 
 ## Installation
 
